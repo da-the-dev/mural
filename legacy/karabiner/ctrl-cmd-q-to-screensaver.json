@@ -1,0 +1,25 @@
+{
+  "title": "Ctrl+Cmd+Q -> Start Screen Saver (locks)",
+  "rules": [
+    {
+      "description": "Replace the system Lock shortcut with Start Screen Saver. Starting the saver locks the Mac (Require password = immediately) and shows the custom lock-screen wallpaper. Karabiner consumes the original Ctrl+Cmd+Q, so the built-in lock does not fire.",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "q",
+            "modifiers": {
+              "mandatory": ["control", "command"],
+              "optional": ["any"]
+            }
+          },
+          "to": [
+            {
+              "shell_command": "/Users/sv-cheats-1/.wallpaper-split/bin/saver-start"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

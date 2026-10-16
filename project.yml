@@ -1,0 +1,71 @@
+name: Mural
+options:
+  bundleIdPrefix: dev.da
+  deploymentTarget:
+    macOS: "26.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+  generateEmptySchemes: false
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    SWIFT_STRICT_CONCURRENCY: minimal
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    ENABLE_HARDENED_RUNTIME: YES
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "-"
+    DEVELOPMENT_TEAM: ""
+    ALWAYS_SEARCH_USER_PATHS: NO
+    CLANG_ENABLE_MODULES: YES
+    ENABLE_USER_SCRIPT_SANDBOXING: NO
+
+targets:
+  WallpaperKit:
+    type: framework
+    platform: macOS
+    sources:
+      - Sources/WallpaperKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.da.mural.WallpaperKit
+        PRODUCT_NAME: WallpaperKit
+        DEFINES_MODULE: YES
+        GENERATE_INFOPLIST_FILE: YES
+        SKIP_INSTALL: YES
+        CODE_SIGN_IDENTITY: "-"
+
+  Mural:
+    type: application
+    platform: macOS
+    sources:
+      - Sources/Mural
+      - path: Resources/AppIcon.icns
+        buildPhase: resources
+    dependencies:
+      - target: WallpaperKit
+        embed: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.da.mural
+        PRODUCT_NAME: Mural
+        INFOPLIST_FILE: Resources/Mural-Info.plist
+        CODE_SIGN_ENTITLEMENTS: Resources/Mural.entitlements
+        LD_RUNPATH_SEARCH_PATHS:
+          - "$(inherited)"
+          - "@executable_path/../Frameworks"
+        COMBINE_HIDPI_IMAGES: YES
+        ENABLE_HARDENED_RUNTIME: YES
+
+schemes:
+  Mural:
+    build:
+      targets:
+        Mural: all
+    run:
+      config: Debug
+    archive:
+      config: Release
+    profile:
+      config: Release
